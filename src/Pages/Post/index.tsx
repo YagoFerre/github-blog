@@ -1,31 +1,39 @@
-import { PostInfo } from '../../components/PostInfo'
-import { ContentContainer, ContentPost } from './styles'
+import { PostInfo } from './components/PostInfo'
+import { useCallback, useEffect, useState } from 'react'
+import { PostContent } from './components/PostContent'
+
+import { useParams } from 'react-router-dom'
+import { api } from '../../lib/axios'
+
+export interface IssuePage {
+  title: string
+  body: string
+  created_at: string
+  number: number
+  html_url: string
+  comments: number
+  user: {
+    login: string
+  }
+}
 
 export function Post() {
+  const [issuePage, setIssuePage] = useState<IssuePage>({} as IssuePage)
+  const { id } = useParams()
+
+  const loadIssuePage = useCallback(async () => {
+    const response = await api.get(`/repos/YagoFerre/github-blog/issues/${id}`)
+    setIssuePage(response.data)
+  }, [issuePage])
+
+  useEffect(() => {
+    loadIssuePage()
+  }, [])
+
   return (
     <div>
-      <PostInfo />
-
-      <ContentContainer>
-        <ContentPost>
-          <p>
-            Programming languages all have built-in data structures, but these
-            often differ from one language to another. This article attempts to
-            list the built-in data structures available in JavaScript and what
-            properties they have. These can be used to build other data
-            structures. Wherever possible, comparisons with other languages are
-            drawn.
-          </p>
-
-          <h3>Dynamic typing</h3>
-          <p>
-            JavaScript is a loosely typed and dynamic language. Variables in
-            JavaScript are not directly associated with any particular value
-            type, and any variable can be assigned (and re-assigned) values of
-            all types:
-          </p>
-        </ContentPost>
-      </ContentContainer>
+      <PostInfo issuePage={issuePage} />
+      <PostContent content={issuePage.body} />
     </div>
   )
 }

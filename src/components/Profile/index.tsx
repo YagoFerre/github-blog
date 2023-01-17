@@ -39,7 +39,7 @@ export function Profile() {
         <ProfileContent>
           <header>
             <h2>{user.name}</h2>
-            <a href={user.html_url}>
+            <a href={user.html_url} target="_blank" rel="noreferrer">
               GITHUB
               <ArrowSquareOut size={12} weight="bold" />
             </a>

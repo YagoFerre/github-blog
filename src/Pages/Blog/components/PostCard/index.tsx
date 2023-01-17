@@ -1,59 +1,36 @@
+import { useNavigate } from 'react-router-dom'
+import { relativeDateFormatter } from '../../../../utils/formatter'
 import { PostCardContainer } from './styles'
 
-export function PostCard() {
+interface PostCardProps {
+  issue: {
+    title: string
+    body: string
+    number: number
+    created_at: string
+  }
+}
+
+export function PostCard({ issue }: PostCardProps) {
+  const fragment = issue.body.substring(0, 176) + '...'
+  const formattedDate = relativeDateFormatter(issue.created_at)
+
+  const navigate = useNavigate()
+
+  function handleRedirect() {
+    navigate(`post/${issue.number}`)
+  }
+
   return (
     <PostCardContainer>
-      <a href="">
+      <div onClick={handleRedirect}>
         <header>
-          <h2>JavaScript data types and data structures</h2>
-          <p>Há 1 dia</p>
+          <h2>{issue.title}</h2>
+          <p>{formattedDate}</p>
         </header>
 
-        <p>
-          Programming languages all have built-in data structures, but these
-          often differ from one language to another. This article attempts to
-          list the built-in data structures available in
-        </p>
-      </a>
-
-      <a href="">
-        <header>
-          <h2>JavaScript data types and data structures</h2>
-          <p>Há 1 dia</p>
-        </header>
-
-        <p>
-          Programming languages all have built-in data structures, but these
-          often differ from one language to another. This article attempts to
-          list the built-in data structures available in
-        </p>
-      </a>
-
-      <a href="">
-        <header>
-          <h2>JavaScript data types and data structures</h2>
-          <p>Há 1 dia</p>
-        </header>
-
-        <p>
-          Programming languages all have built-in data structures, but these
-          often differ from one language to another. This article attempts to
-          list the built-in data structures available in
-        </p>
-      </a>
-
-      <a href="">
-        <header>
-          <h2>JavaScript data types and data structures</h2>
-          <p>Há 1 dia</p>
-        </header>
-
-        <p>
-          Programming languages all have built-in data structures, but these
-          often differ from one language to another. This article attempts to
-          list the built-in data structures available in
-        </p>
-      </a>
+        <p>{fragment}</p>
+      </div>
     </PostCardContainer>
   )
 }

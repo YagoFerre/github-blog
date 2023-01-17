@@ -1,14 +1,15 @@
 import styled from 'styled-components'
 
 export const PostCardContainer = styled.div`
-  max-width: 864px;
+  width: 100%;
+  width: 864px;
   margin: 0 auto;
-  margin-top: 3rem;
+
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, 1fr);
   gap: 2rem;
 
-  a {
+  div {
     display: flex;
     flex-direction: column;
     max-width: 416px;
